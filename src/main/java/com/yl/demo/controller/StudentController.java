@@ -15,7 +15,7 @@ import java.util.List;
 
 /**
  * <p>
- *  前端控制器
+ * 前端控制器
  * </p>
  *
  * @author wfj
@@ -30,6 +30,7 @@ public class StudentController {
 
     /**
      * 获取学生列表
+     *
      * @return
      */
     @GetMapping("/listStudent")
@@ -44,16 +45,25 @@ public class StudentController {
 
     /**
      * 根据学生ID获取学生
+     *
      * @param id
      * @return
      */
     @GetMapping("/getStudentById")
     public Result getStudentById(@RequestParam Integer id) {
-        Student student = studentService.getStudentById(id);
-        if (student != null) {
-            return Result.success(student);
-        } else {
-            return Result.fail();
+        synchronized (this) {
+            System.out.println("开始");
+            try {
+                Thread.sleep(10000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            Student student = studentService.getStudentById(id);
+            if (student != null) {
+                return Result.success(student);
+            } else {
+                return Result.fail();
+            }
         }
     }
 }
