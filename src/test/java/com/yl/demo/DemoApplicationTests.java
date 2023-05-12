@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 @SpringBootTest
 class DemoApplicationTests {
 
+    //多线程事务  核心：TransactionStatus
 
     @Autowired
     private IDuoXcShiWuService duoXcShiWuService;
