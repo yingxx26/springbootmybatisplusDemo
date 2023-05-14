@@ -5,9 +5,12 @@ import com.yl.demo.entity.Student;
 import com.yl.demo.entity.StudentTaskError;
 import com.yl.demo.mapper.StudentMapper;
 import com.yl.demo.service.IDuoXcShiWuService;
+import com.yl.demo.service.LuaService;
+import com.yl.demo.service.StockLuaService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
 
@@ -26,6 +29,14 @@ class DemoApplicationTests {
 
     @Autowired
     private IDuoXcShiWuService duoXcShiWuService;
+
+    @Autowired
+    private LuaService luaService;
+
+    @Autowired
+    private StockLuaService stockLuaService;
+
+
     @Resource
     private StudentMapper studentMapper;
 
@@ -80,4 +91,24 @@ class DemoApplicationTests {
         System.out.println("主线程完成");
     }
 
+    @Autowired
+    private StringRedisTemplate redisTemplate;
+
+
+    @Test
+    void testOne1() {
+        redisTemplate.opsForValue().set("name", "卷心菜");
+        String name = (String) redisTemplate.opsForValue().get("name");
+        System.out.println(name); //卷心菜
+    }
+
+    @Test
+    void testlua() {
+        luaService.testLua("p1", "1");
+    }
+
+    @Test
+    void testlua1() {
+        stockLuaService.testLua("1", "yxx");
+    }
 }
